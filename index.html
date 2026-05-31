@@ -61,33 +61,18 @@
         .reveal code { font-family: monospace; }
         
         /* =========================================
-           圖片處理 - 放大佔用大部份空間並保持比例，且絕對不出界
+           圖片處理 - 交由 Reveal.js 原生排版避免高度溢出
            ========================================= */
-        .reveal .slides section {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-sizing: border-box;
-            padding-bottom: 20px; /* 避免內容太貼近底部邊緣 */
-        }
-        
         .reveal .slides section .img-container { 
-            margin-top: 15px; 
+            margin-top: 20px; 
             text-align: center; 
-            flex: 1 1 0; /* 關鍵：佔據所有剩餘空間，並且允許完美縮小 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 0; /* 關鍵：防止 Flexbox 子元素撐破父容器 */
             width: 100%;
         }
         
         .reveal .slides section img {
-            max-width: 95%; 
-            /* 使用百分比而非 vh，完美跟隨 Reveal.js 內建的縮放比例，扣除 30px 給下方的圖說文字 */
-            max-height: calc(100% - 30px); 
+            /* 針對 Reveal.js 預設 1024x768 畫布：限制最高 480px 可確保佔滿多數空間，且絕對不會撐破底部 */
+            max-width: 90%; 
+            max-height: 480px; 
             width: auto;
             height: auto;
             object-fit: contain;
@@ -96,9 +81,7 @@
             box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
             background: transparent;
             margin: 0 auto;
-            flex-shrink: 1; /* 允許圖片在空間不足時自動縮小 */
         }
-        
         .img-desc { font-family: var(--font-text); font-size: 12px; color: var(--body-muted); margin-top: 12px; letter-spacing: -0.12px; }
         .highlight { color: var(--primary); font-weight: 600; }
         .tag { background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 14px; font-family: monospace; color: var(--ink); }
@@ -242,6 +225,7 @@
                 <p class="lead">利用 AI 輔助製作網站分享</p>
                 <div class="img-container">
                     <img src="1.png" alt="首頁截圖">
+                    <div class="img-desc">圖片 1 建議：網站首頁截圖或教學環境相片</div>
                 </div>
             </section>
 
@@ -264,6 +248,7 @@
                     </ul>
                     <div class="img-container">
                         <img src="2.jpeg" alt="教學情境">
+                        <div class="img-desc">圖片 2 建議：高中 ICT 課堂或學生編程過程</div>
                     </div>
                 </section>
                 <section>
@@ -332,6 +317,7 @@
                     </ul>
                      <div class="img-container">
                         <img src="7.png" alt="UI設計">
+                        <div class="img-desc">圖片 7 建議：網站外觀或開源項目的圖片</div>
                     </div>
                 </section>
                 <section>
@@ -343,6 +329,7 @@
                     </ul>
                     <div class="img-container">
                         <img src="8.png" alt="GitHub Pages">
+                        <div class="img-desc">圖片 8 建議：GitHub Pages 標誌或連結示意圖</div>
                     </div>
                 </section>
                 <section>
@@ -354,6 +341,7 @@
                     </ul>
                     <div class="img-container">
                         <img src="9.png" alt="Firebase 數據庫">
+                        <div class="img-desc">圖片 9 建議：Firebase 後台數據結構</div>
                     </div>
                 </section>
                 <section>
@@ -364,6 +352,7 @@
                     </ul>
                     <div class="img-container">
                         <img src="10.png" alt="保安設定">
+                        <div class="img-desc">圖片 10 建議：Google登入畫面或冷卻按鈕</div>
                     </div>
                 </section>
             </section>
@@ -394,9 +383,7 @@
 <pre><code>我希望建立一個專為中學編程教學設計的課堂評測網站，核心機制請參考 LeetCode 等「自動化評測平台」。系統需具備以下核心架構：
 
 1. 題目建立：教師可預先設定題目，輸入標準 Python 程式碼後，系統需能自動生成或驗證「測試用例」。
-
 2. 自動評改：學生提交課堂練習後，系統需即時在瀏覽器端執行其程式碼，比對測試結果並自動核發分數。
-
 3. 數據追蹤：教師後台需能實時檢視學生的測試紀錄、提交的程式碼及最終得分，以作持續性評估。
 
 如需進一步補充系統規格或技術細節以完善平台開發，請向我提問。</code></pre>
@@ -405,22 +392,16 @@
                 <section>
                     <h3>提示詞範例 2：功能優化與除錯</h3>
                     <p><b>設計原意：</b>解決課堂實際應用時出現的系統異常與效能問題。</p>
-<pre><code>請為系統進行以下優化與除錯：
+<pre><code>請在維持現有架構不變的前提下，為系統進行以下優化與除錯：
 
 【功能優化】
-
 1. 教師後台：於題目管理介面新增「依日期篩選」功能。
-
 2. 教師後台：將學生提交紀錄優化為「實時動態更新」，移除手動重新整理按鈕。
-
 3. 效能防護：針對學生可能誤寫的無窮迴圈加入防護機制，將單次迴圈執行間隔設為 0.1 秒，避免導致網頁崩潰。
-
 4. 執行控制：新增「強制終止」按鈕。當執行程式時，按鈕動態切換，運行結束後自動恢復為「測試程式碼」按鈕。
 
 【異常修復】
-
 5. 視窗異常：修復執行 `while True: a = input()` 時，導致系統無限觸發輸入彈跳視窗的問題。
-
 6. 型別比較防護：修復因字串與整數進行大小比較所引發的系統報錯。
 
 請輸出更新後的完整 HTML 程式碼。</code></pre>
@@ -429,20 +410,15 @@
                 <section>
                     <h3>提示詞範例 3：資料驗證與後台擴充</h3>
                     <p><b>設計原意：</b>完善評分邏輯，並加強學生輸入資料的格式控制。</p>
-<pre><code>請完善系統評分邏輯及資料驗證機制：
+<pre><code>請在現有的基礎上，協助完善系統評分邏輯及資料驗證機制：
 
 【後台擴充與邏輯修復】
-
 1. 計分異常：修正答案全對但系統仍核發 0 分的邏輯錯誤。
-
 2. 資料庫管理：於教師專區擴充 Firebase 數據管理介面，以便直接檢視與維護所有資料表。
-
 3. 篩選機制：擴充現有題目與日期的篩選器，加入「顯示所有日期」的選項。
 
 【前端輸入驗證】
-
 4. 班別驗證：限制輸入格式為兩位大寫字符（僅限 1A-1E 至 6A-6E），系統需主動阻擋非規範輸入。
-
 5. 學號驗證：限制輸入格式為兩位數字字串（範圍 01 至 45），系統需主動阻擋非規範輸入。
 
 請輸出更新後的完整 HTML 程式碼。</code></pre>
