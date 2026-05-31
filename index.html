@@ -27,14 +27,12 @@
             --font-display: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
             --font-text: "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
         }
-
         .reveal {
             font-family: var(--font-text);
             color: var(--ink);
             background-color: var(--canvas);
             font-feature-settings: "ss03";
         }
-
         .reveal h1, .reveal h2, .reveal h3 {
             font-family: var(--font-display);
             font-weight: 600;
@@ -42,17 +40,13 @@
             color: inherit;
             margin-bottom: 24px;
         }
-
         .reveal h1 { font-size: 56px; line-height: 1.07; letter-spacing: -0.28px; }
         .reveal h2 { font-size: 40px; line-height: 1.1; letter-spacing: 0px; }
         .reveal h3 { font-size: 34px; line-height: 1.47; letter-spacing: -0.374px; margin-bottom: 17px; }
-
         .reveal p.lead { font-size: 28px; font-weight: 400; line-height: 1.14; letter-spacing: 0.196px; }
         .reveal p, .reveal li { font-size: 17px; font-weight: 400; line-height: 1.47; letter-spacing: -0.374px; margin-bottom: 12px; }
-
         .reveal ul { display: inline-block; text-align: left; margin-top: 17px; width: 100%; }
         .reveal li { margin-bottom: 16px; }
-
         /* 程式碼區塊樣式 */
         .reveal pre {
             background: #272729;
@@ -64,7 +58,6 @@
             margin-top: 20px;
         }
         .reveal code { font-family: monospace; }
-
         /* 圖片處理 - 放大佔用大部份空間並保持比例，且不出界 */
         .reveal .slides section {
             height: 100%;
@@ -94,19 +87,119 @@
             background: transparent;
             margin: 0 auto;
         }
-
         .img-desc { font-family: var(--font-text); font-size: 12px; color: var(--body-muted); margin-top: 12px; letter-spacing: -0.12px; }
         .highlight { color: var(--primary); font-weight: 600; }
         .tag { background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 14px; font-family: monospace; color: var(--ink); }
         
         /* 附錄專用微調 */
         .appendix-step { font-weight: 600; color: var(--primary); margin-top: 20px; }
+
+
+        /* =========================================
+           新增互動功能 CSS (左下角按鈕與飄浮泡泡)
+           ========================================= */
+        #interactive-ui-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            font-family: var(--font-text);
+        }
+        #toggle-bubble-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        #toggle-bubble-btn:active {
+            transform: scale(0.95);
+        }
+        #bubble-input-box {
+            display: none;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            align-items: center;
+            gap: 8px;
+        }
+        #bubble-text-input {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            width: 150px;
+        }
+        #bubble-send-btn {
+            padding: 8px 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* 飄浮泡泡的樣式 */
+        .floating-bubble {
+            position: fixed;
+            bottom: -10vh; /* 從畫面最下方外側開始 */
+            font-size: 5vh; /* 大約佔畫面的 5% 大小 */
+            opacity: 0.5;   /* 透明度 50% */
+            z-index: 9998;  /* 顯示在所有投影片之上，但在輸入框之下 */
+            pointer-events: none; /* 避免擋住投影片的點擊或滑動 */
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            animation: floatUp 6s linear forwards; /* 6秒勻速往上飄 */
+        }
+
+        /* 飄浮動畫 */
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(0); 
+                opacity: 0.5; 
+            }
+            100% { 
+                transform: translateY(-120vh); /* 飄出螢幕最上方 */
+                opacity: 0.1; 
+            }
+        }
     </style>
 </head>
 <body>
+    
+    <!-- 互動 UI 容器 (固定在左下角) -->
+    <div id="interactive-ui-container">
+        <button id="toggle-bubble-btn">💬</button>
+        <div id="bubble-input-box">
+            <input type="text" id="bubble-text-input" placeholder="輸入文字..." maxlength="20">
+            <button id="bubble-send-btn">發送</button>
+        </div>
+    </div>
+
+    <!-- 泡泡飄浮容器 (覆蓋全螢幕，但不會阻擋點擊) -->
+    <div id="bubbles-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; overflow: hidden;"></div>
+
     <div class="reveal">
         <div class="slides">
-
             <!-- 封面 -->
             <section data-background-color="#ffffff">
                 <h1>專屬編程平台開發</h1>
@@ -116,7 +209,6 @@
                     <div class="img-desc">圖片 1 建議：網站首頁截圖或教學環境相片</div>
                 </div>
             </section>
-
             <!-- 第一部份：從教學現場出發 -->
             <section data-background-color="#f5f5f7">
                 <section>
@@ -150,7 +242,6 @@
                     </ul>
                 </section>
             </section>
-
             <!-- 第二部份：網站功能展示 -->
             <section data-background-color="#ffffff">
                 <section>
@@ -206,7 +297,6 @@
                     </div>
                 </section>
             </section>
-
             <!-- 第三部份：系統架構與技術 (原有的介紹) -->
             <section data-background-color="#f5f5f7">
                 <section>
@@ -260,7 +350,6 @@
                     </div>
                 </section>
             </section>
-
             <!-- 第四部份：AI 輔助開發實戰 -->
             <section data-background-color="#ffffff">
                 <section>
@@ -286,7 +375,6 @@
                     <p><b>設計原意：</b>確立平台的基本邏輯，參考現有技術機制。</p>
                     <pre><code>LEETCODE 這些平台能夠正確測試用戶所建立的程式是否正確和有正確的輸入和輸出。我想利用這個特點建立一個網站，用來作為在中學編程教學中作為堂課使用。我想在上課時出一些題目，我輸入正確的 PYTHON 程式到網站當中，然後網站能測試所有可能的結果，然後當學生在完成我在課堂上給的堂課問題時，能夠測試運行的程式是否能通過所有測試，然後自動給予分數。我想能夠查看學生所測試和遞交的程式，及收集他們的得分用作評估分數。如有任何必需的資料需要我補充用來完善網站，請發問。</code></pre>
                 </section>
-
                 <section>
                     <h3>提示詞範例 2：功能優化與除錯</h3>
                     <p><b>設計原意：</b>解決課堂實際應用時出現的系統異常與效能問題。</p>
@@ -299,7 +387,6 @@
 6. 修復執行字串與整數比較時引發的 `TypeError: '<' not supported between instances of 'str' and 'int'` 錯誤。
 直接給我完整的 HTML 代碼。</code></pre>
                 </section>
-
                 <section>
                     <h3>提示詞範例 3：資料驗證與後台擴充</h3>
                     <p><b>設計原意：</b>完善評分邏輯，並加強學生輸入資料的格式控制。</p>
@@ -312,7 +399,6 @@
 給我完整的 HTML 代碼。</code></pre>
                 </section>
             </section>
-
             <!-- 結語 -->
             <section data-background-color="#f5f5f7">
                 <h2>總結</h2>
@@ -322,7 +408,6 @@
                     <div class="img-desc">圖片 11 建議：整體系統運作圖或分享會結尾相片</div>
                 </div>
             </section>
-
             <!-- 附錄區域：實作參考步驟 (供教師日後查閱) -->
             <section data-background-color="#ffffff">
                 <section>
@@ -344,12 +429,11 @@
                     </ul>
                     <p class="appendix-step">第 2 步：上傳程式碼</p>
                     <ul>
-                        <li>建立完成後，點擊頁面中間的「uploading an existing file」。</li>
+                        <li>建立完成後，點擊頁面中間Quick setup的「uploading an existing file」。</li>
                         <li>將做好的 index.html 檔案拖曳到畫面中。</li>
                         <li>檔案上傳完畢後，點擊下方的綠色按鈕「Commit changes」。</li>
                     </ul>
                 </section>
-
                 <!-- 附錄：GitHub 步驟 3 & 4 -->
                 <section>
                     <h3>GITHUB：開啟免費網頁服務</h3>
@@ -365,23 +449,24 @@
                         <li>重新整理 Pages 設定頁面，最上方會出現一段文字：<br>大功告成。這個網址就是專屬的課堂網站了。</li>
                     </ul>
                 </section>
-
                 <!-- 附錄：Firebase 步驟 -->
                 <section>
                     <h3>FIREBASE：申請免費資料庫</h3>
                     <ul>
-                        <li>前往 Firebase Console，使用 Google 帳號登入。</li>
-                        <li>點擊「新增專案 (Add Project)」，輸入名稱（例如 School-Python-Grader）。</li>
+                        <li>前往 Firebase Console https://console.firebase.google.com/u/0/ ，使用 Google 帳號登入。</li>
+                        <li>點擊「建立新的Firebase專案」，輸入名稱（例如 School-Python-Grader）。</li>
                         <li>進入專案後，在左側選單找到 Firestore Database，點擊「建立資料庫」。</li>
                         <li>選擇「以測試模式啟動 (Start in test mode)」，並選擇最近的地區。</li>
-                        <li>回到專案總覽，點擊網頁圖示 <code>&lt;/&gt;</code> 來新增一個「網頁應用程式」。</li>
+                        <li>回到專案總覽，按下「新增應用程式」，點擊網頁圖示 <code>&lt;/&gt;</code> 。</li>
+                        <li>建立應用程式暱稱，然後註冊</li>
                         <li>Firebase 會提供一段包含 <code>apiKey</code>, <code>projectId</code> 等資訊的程式碼。請 ChatGPT 協助將代碼整合進 HTML 檔案。</li>
+                        
                     </ul>
                 </section>
-
                 <!-- 附錄：Firebase 代碼 -->
                 <section>
                     <h3>FIREBASE：存取規則代碼參考</h3>
+                    <li>在資料庫和儲存空間找到Realtime Database，然後以「測試模式啟動」啟用資料庫。</li>
                     <p>測試模式下的資料庫存取規則 (Rules) 類似以下格式，允許網頁直接寫入資料：</p>
                     <pre><code>{
   "rules": {
@@ -391,10 +476,8 @@
 }</code></pre>
                 </section>
             </section>
-
         </div>
     </div>
-
     <!-- 載入 Reveal.js 腳本 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
     <script>
@@ -409,6 +492,99 @@
             transition: 'fade', 
             backgroundTransition: 'fade'
         });
+    </script>
+
+    <!-- =========================================
+         Firebase 與互動功能 JavaScript (使用模組化載入)
+         ========================================= -->
+    <script type="module">
+        // 使用 CDN 引入 Firebase 模組
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // Firebase 設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyDH9T2b0G7yCsLqNeD3Rwf-EHOVuSeTtbM",
+            authDomain: "teacherdev-1a284.firebaseapp.com",
+            projectId: "teacherdev-1a284",
+            storageBucket: "teacherdev-1a284.firebasestorage.app",
+            messagingSenderId: "844280898519",
+            appId: "1:844280898519:web:27f9a0192357eeeafc6192"
+        };
+
+        // 初始化 Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        // 建立/指向資料庫中的 "floating_bubbles" 節點
+        const bubblesRef = ref(db, 'floating_bubbles');
+
+        // UI 互動邏輯
+        const toggleBtn = document.getElementById('toggle-bubble-btn');
+        const inputBox = document.getElementById('bubble-input-box');
+        const textInput = document.getElementById('bubble-text-input');
+        const sendBtn = document.getElementById('bubble-send-btn');
+        const bubblesContainer = document.getElementById('bubbles-container');
+
+        // 紀錄網頁載入時間，避免重新整理時舊的泡泡全部噴出來
+        const pageLoadTime = Date.now();
+
+        // 展開/收合輸入框
+        toggleBtn.addEventListener('click', () => {
+            if (inputBox.style.display === 'none' || inputBox.style.display === '') {
+                inputBox.style.display = 'flex';
+                textInput.focus();
+            } else {
+                inputBox.style.display = 'none';
+            }
+        });
+
+        // 傳送泡泡文字到 Firebase
+        function sendBubble() {
+            const text = textInput.value.trim();
+            if (text !== '') {
+                // 將資料寫入 Firebase Realtime Database
+                push(bubblesRef, {
+                    text: text,
+                    timestamp: Date.now()
+                });
+                textInput.value = ''; // 清空輸入框
+                inputBox.style.display = 'none'; // 送出後自動隱藏
+            }
+        }
+
+        sendBtn.addEventListener('click', sendBubble);
+        textInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendBubble();
+        });
+
+        // 監聽 Firebase 資料庫，若有新資料寫入則觸發
+        onChildAdded(bubblesRef, (snapshot) => {
+            const data = snapshot.val();
+            
+            // 只有當訊息是在網頁載入後，或者10秒內發送的，才會顯示，避免洗版
+            if (data.timestamp && (Date.now() - data.timestamp) < 10000) {
+                createFloatingBubble(data.text);
+            }
+        });
+
+        // 生成螢幕上的飄浮泡泡元素
+        function createFloatingBubble(text) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('floating-bubble');
+            bubble.textContent = text;
+            
+            // 設定隨機 X 軸位置 (限制在 5vw 到 85vw 之間，以免文字超出右側螢幕)
+            const randomX = Math.floor(Math.random() * 80) + 5;
+            bubble.style.left = randomX + 'vw';
+            
+            bubblesContainer.appendChild(bubble);
+
+            // 動畫結束後自動把元素移除，節省記憶體 (動畫設定為6秒)
+            setTimeout(() => {
+                bubble.remove();
+            }, 6100); 
+        }
     </script>
 </body>
 </html>
