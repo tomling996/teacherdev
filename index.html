@@ -96,26 +96,28 @@
 
 
         /* =========================================
-           新增互動功能 CSS (左下角按鈕與飄浮泡泡)
+           新增互動功能 CSS (自適應比例設計)
            ========================================= */
         #interactive-ui-container {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: clamp(15px, 3vh, 30px);
+            left: clamp(15px, 3vw, 30px);
             z-index: 9999;
             display: flex;
             align-items: flex-end;
-            gap: 10px;
+            gap: clamp(8px, 1.5vw, 15px);
             font-family: var(--font-text);
         }
+        
         #toggle-bubble-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
+            /* 讓按鈕大小隨螢幕寬度縮放，但限制最小40px與最大65px */
+            width: clamp(40px, 6vw, 65px);
+            height: clamp(40px, 6vw, 65px);
+            border-radius: 50%;
             background-color: var(--primary);
             color: white;
             border: none;
-            font-size: 24px;
+            font-size: clamp(20px, 3vw, 30px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             cursor: pointer;
             display: flex;
@@ -126,38 +128,44 @@
         #toggle-bubble-btn:active {
             transform: scale(0.95);
         }
+        
         #bubble-input-box {
             display: none;
             background: white;
-            padding: 10px;
+            padding: clamp(8px, 1.5vw, 15px);
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             align-items: center;
-            gap: 8px;
+            gap: clamp(5px, 1vw, 10px);
         }
+        
         #bubble-text-input {
-            padding: 8px 12px;
+            /* 輸入框寬度隨螢幕縮放 */
+            width: clamp(140px, 25vw, 250px);
+            padding: clamp(8px, 1vw, 12px) clamp(10px, 1.5vw, 16px);
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 16px;
+            /* 最小 16px 以防止 iOS Safari 點擊時自動放大畫面 */
+            font-size: clamp(16px, 2vw, 18px);
             outline: none;
-            width: 150px;
         }
+        
         #bubble-send-btn {
-            padding: 8px 12px;
+            padding: clamp(8px, 1vw, 12px) clamp(10px, 1.5vw, 16px);
             background-color: var(--primary);
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
+            font-size: clamp(16px, 2vw, 18px);
         }
 
         /* 飄浮泡泡的樣式 */
         .floating-bubble {
             position: fixed;
             bottom: -10vh; /* 從畫面最下方外側開始 */
-            font-size: 5vh; /* 大約佔畫面的 5% 大小 */
+            font-size: 5vh; /* 動態佔據畫面高度的 5% */
             opacity: 0.5;   /* 透明度 50% */
             z-index: 9998;  /* 顯示在所有投影片之上，但在輸入框之下 */
             pointer-events: none; /* 避免擋住投影片的點擊或滑動 */
@@ -186,7 +194,7 @@
 </head>
 <body>
     
-    <!-- 互動 UI 容器 (固定在左下角) -->
+    <!-- 互動 UI 容器 (固定在左下角，自適應大小) -->
     <div id="interactive-ui-container">
         <button id="toggle-bubble-btn">💬</button>
         <div id="bubble-input-box">
@@ -297,7 +305,7 @@
                     </div>
                 </section>
             </section>
-            <!-- 第三部份：系統架構與技術 (原有的介紹) -->
+            <!-- 第三部份：系統架構與技術 -->
             <section data-background-color="#f5f5f7">
                 <section>
                     <h2>第三部份：系統架構與技術</h2>
@@ -408,7 +416,7 @@
                     <div class="img-desc">圖片 11 建議：整體系統運作圖或分享會結尾相片</div>
                 </div>
             </section>
-            <!-- 附錄區域：實作參考步驟 (供教師日後查閱) -->
+            <!-- 附錄區域：實作參考步驟 -->
             <section data-background-color="#ffffff">
                 <section>
                     <h2>附錄：實作參考步驟</h2>
@@ -478,13 +486,14 @@
             </section>
         </div>
     </div>
+    
     <!-- 載入 Reveal.js 腳本 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
     <script>
         Reveal.initialize({
             width: 1024,
             height: 768,
-            margin: 0.1,
+            margin: 0.05, /* 稍微調小 margin 讓手機螢幕能顯示得更大更滿 */
             controls: true,
             progress: true,
             center: true,
@@ -525,9 +534,6 @@
         const textInput = document.getElementById('bubble-text-input');
         const sendBtn = document.getElementById('bubble-send-btn');
         const bubblesContainer = document.getElementById('bubbles-container');
-
-        // 紀錄網頁載入時間，避免重新整理時舊的泡泡全部噴出來
-        const pageLoadTime = Date.now();
 
         // 展開/收合輸入框
         toggleBtn.addEventListener('click', () => {
