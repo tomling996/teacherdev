@@ -2,7 +2,8 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 解除 maximum-scale 與 user-scalable 限制，允許手機雙指正常縮放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>專屬編程平台開發</title>
     <!-- 載入 Reveal.js 樣式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
@@ -383,7 +384,7 @@
                 <section>
                     <h3>提示詞範例 1：建構核心架構</h3>
                     <p><b>設計原意：</b>確立平台的基本邏輯，參考現有技術機制。</p>
-<pre><code>其他不變。我希望建立一個專為中學編程教學設計的課堂評測網站，核心機制請參考 LeetCode 等「自動化評測平台」。系統需具備以下核心架構：
+<pre><code>我希望建立一個專為中學編程教學設計的課堂評測網站，核心機制請參考 LeetCode 等「自動化評測平台」。系統需具備以下核心架構：
 
 1. 題目建立：教師可預先設定題目，輸入標準 Python 程式碼後，系統需能自動生成或驗證「測試用例」。
 
@@ -397,7 +398,7 @@
                 <section>
                     <h3>提示詞範例 2：功能優化與除錯</h3>
                     <p><b>設計原意：</b>解決課堂實際應用時出現的系統異常與效能問題。</p>
-<pre><code>其他不變。請為系統進行以下優化與除錯：
+<pre><code>請為系統進行以下優化與除錯：
 
 【功能優化】
 
@@ -421,7 +422,7 @@
                 <section>
                     <h3>提示詞範例 3：資料驗證與後台擴充</h3>
                     <p><b>設計原意：</b>完善評分邏輯，並加強學生輸入資料的格式控制。</p>
-<pre><code>其他不變，請完善系統評分邏輯及資料驗證機制：
+<pre><code>請完善系統評分邏輯及資料驗證機制：
 
 【後台擴充與邏輯修復】
 
@@ -445,12 +446,6 @@
             <section data-background-color="#f5f5f7">
                 <h2>總結</h2>
                 <p class="lead">結合明確的教學需求與 AI 輔助<br>以低成本建構切合課堂環境的教學工具。</p>
-                <!--
-                <div class="img-container">
-                    <img src="11.png" alt="結語圖片">
-                    <div class="img-desc">圖片 11 建議：整體系統運作圖或分享會結尾相片</div>
-                </div>
-                -->
             </section>
 
             <!-- 附錄區域：實作參考步驟 -->
@@ -511,7 +506,7 @@
                 <section>
                     <h3>FIREBASE：存取規則代碼參考</h3>
                     <li>在資料庫和儲存空間找到Realtime Database，然後以「測試模式啟動」啟用資料庫。</li>
-                    <p>複製測試模式下的資料庫存取規則 (Rules)，請AI協助將代碼整合進 HTML 檔案。</p>
+                    <p>測試模式下的資料庫存取規則 (Rules) 類似以下格式，允許網頁直接寫入資料，複製請AI協助將代碼整合進 HTML 檔案。：</p>
                 </section>
             </section>
         </div>
@@ -529,7 +524,8 @@
             center: true,
             hash: true,
             transition: 'fade', 
-            backgroundTransition: 'fade'
+            backgroundTransition: 'fade',
+            overview: false /* 關閉預設的雙指捏合(Pinch)跳至預覽模式，避免手機縮放時跳出目前頁面 */
         });
     </script>
 
