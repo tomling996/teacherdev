@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,12 +7,12 @@
     <!-- 載入 Reveal.js 樣式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-
+    
     <!-- 引入 Inter 字體以模擬 SF Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
+    
     <style>
         /* =========================================
            Apple Design System CSS Tokens (Light Mode Only)
@@ -24,74 +23,30 @@
             --body-muted: #7a7a7a;
             --canvas: #ffffff;
             --canvas-parchment: #f5f5f7;
-
+            
             --font-display: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
             --font-text: "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
         }
-
         .reveal {
             font-family: var(--font-text);
             color: var(--ink);
             background-color: var(--canvas);
             font-feature-settings: "ss03";
         }
-
-        .reveal h1,
-        .reveal h2,
-        .reveal h3 {
+        .reveal h1, .reveal h2, .reveal h3 {
             font-family: var(--font-display);
             font-weight: 600;
             text-transform: none;
             color: inherit;
             margin-bottom: 24px;
         }
-
-        .reveal h1 {
-            font-size: 56px;
-            line-height: 1.07;
-            letter-spacing: -0.28px;
-        }
-
-        .reveal h2 {
-            font-size: 40px;
-            line-height: 1.1;
-            letter-spacing: 0px;
-        }
-
-        .reveal h3 {
-            font-size: 34px;
-            line-height: 1.47;
-            letter-spacing: -0.374px;
-            margin-bottom: 17px;
-        }
-
-        .reveal p.lead {
-            font-size: 28px;
-            font-weight: 400;
-            line-height: 1.14;
-            letter-spacing: 0.196px;
-        }
-
-        .reveal p,
-        .reveal li {
-            font-size: 17px;
-            font-weight: 400;
-            line-height: 1.47;
-            letter-spacing: -0.374px;
-            margin-bottom: 12px;
-        }
-
-        .reveal ul {
-            display: inline-block;
-            text-align: left;
-            margin-top: 17px;
-            width: 100%;
-        }
-
-        .reveal li {
-            margin-bottom: 16px;
-        }
-
+        .reveal h1 { font-size: 56px; line-height: 1.07; letter-spacing: -0.28px; }
+        .reveal h2 { font-size: 40px; line-height: 1.1; letter-spacing: 0px; }
+        .reveal h3 { font-size: 34px; line-height: 1.47; letter-spacing: -0.374px; margin-bottom: 17px; }
+        .reveal p.lead { font-size: 28px; font-weight: 400; line-height: 1.14; letter-spacing: 0.196px; }
+        .reveal p, .reveal li { font-size: 17px; font-weight: 400; line-height: 1.47; letter-spacing: -0.374px; margin-bottom: 12px; }
+        .reveal ul { display: inline-block; text-align: left; margin-top: 17px; width: 100%; }
+        .reveal li { margin-bottom: 16px; }
         /* 程式碼區塊樣式 */
         .reveal pre {
             background: #272729;
@@ -102,11 +57,7 @@
             overflow-x: auto;
             margin-top: 20px;
         }
-
-        .reveal code {
-            font-family: monospace;
-        }
-
+        .reveal code { font-family: monospace; }
         /* 圖片處理 - 放大佔用大部份空間並保持比例，且不出界 */
         .reveal .slides section {
             height: 100%;
@@ -114,26 +65,23 @@
             flex-direction: column;
             justify-content: center;
         }
-
-        .reveal .slides section .img-container {
-            margin-top: 20px;
-            text-align: center;
-            flex-grow: 1;
-            /* 佔據剩餘空間 */
+        
+        .reveal .slides section .img-container { 
+            margin-top: 20px; 
+            text-align: center; 
+            flex-grow: 1; /* 佔據剩餘空間 */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 0;
-            /* 允許縮小 */
+            min-height: 0; /* 允許縮小 */
             width: 100%;
         }
-
+        
         .reveal .slides section img {
-            /* 修復超出頁面問題：在 1024x768 的畫布中限制最大高度與寬度，交由 Reveal.js 統一等比縮放 */
-            max-width: 95%;
-            max-height: 450px;
-            /* 保留足夠的空間給標題與內文 */
+            /* 修改為限制在畫面大部份比例，不會過大超出螢幕 */
+            max-width: 90vw; 
+            max-height: 75vh; 
             width: auto;
             height: auto;
             object-fit: contain;
@@ -143,35 +91,12 @@
             background: transparent;
             margin: 0 auto;
         }
-
-        .img-desc {
-            font-family: var(--font-text);
-            font-size: 12px;
-            color: var(--body-muted);
-            margin-top: 12px;
-            letter-spacing: -0.12px;
-        }
-
-        .highlight {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .tag {
-            background: #e0e0e0;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: monospace;
-            color: var(--ink);
-        }
-
+        .img-desc { font-family: var(--font-text); font-size: 12px; color: var(--body-muted); margin-top: 12px; letter-spacing: -0.12px; }
+        .highlight { color: var(--primary); font-weight: 600; }
+        .tag { background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 14px; font-family: monospace; color: var(--ink); }
+        
         /* 附錄專用微調 */
-        .appendix-step {
-            font-weight: 600;
-            color: var(--primary);
-            margin-top: 20px;
-        }
+        .appendix-step { font-weight: 600; color: var(--primary); margin-top: 20px; }
 
         /* =========================================
            新增互動功能 CSS (自適應比例設計)
@@ -186,7 +111,7 @@
             gap: clamp(8px, 1.5vw, 15px);
             font-family: var(--font-text);
         }
-
+        
         #toggle-bubble-btn {
             /* 讓按鈕大小隨螢幕寬度縮放，但限制最小40px與最大65px */
             width: clamp(40px, 6vw, 65px);
@@ -196,28 +121,27 @@
             color: white;
             border: none;
             font-size: clamp(20px, 3vw, 30px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: transform 0.2s;
         }
-
         #toggle-bubble-btn:active {
             transform: scale(0.95);
         }
-
+        
         #bubble-input-box {
             display: none;
             background: white;
             padding: clamp(8px, 1.5vw, 15px);
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             align-items: center;
             gap: clamp(5px, 1vw, 10px);
         }
-
+        
         #bubble-text-input {
             /* 輸入框寬度隨螢幕縮放 */
             width: clamp(140px, 25vw, 250px);
@@ -228,7 +152,7 @@
             font-size: clamp(16px, 2vw, 18px);
             outline: none;
         }
-
+        
         #bubble-send-btn {
             padding: clamp(8px, 1vw, 12px) clamp(10px, 1.5vw, 16px);
             background-color: var(--primary);
@@ -243,62 +167,53 @@
         /* 飄浮泡泡的樣式 */
         .floating-bubble {
             position: fixed;
-            bottom: -10vh;
-            /* 從畫面最下方外側開始 */
-            font-size: 5vh;
-            /* 動態佔據畫面高度的 5% */
-            opacity: 0;
-            /* 初始透明度 0 */
-            z-index: 9998;
-            /* 顯示在所有投影片之上，但在輸入框之下 */
-            pointer-events: none;
-            /* 避免擋住投影片的點擊或滑動 */
+            bottom: -10vh; /* 從畫面最下方外側開始 */
+            font-size: 5vh; /* 動態佔據畫面高度的 5% */
+            opacity: 0;   /* 初始透明度 0 */
+            z-index: 9998;  /* 顯示在所有投影片之上，但在輸入框之下 */
+            pointer-events: none; /* 避免擋住投影片的點擊或滑動 */
             color: var(--primary);
             background: rgba(255, 255, 255, 0.85);
             padding: 5px 15px;
             border-radius: 20px;
             font-weight: 600;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             white-space: nowrap;
-            /* 預設動畫長度，會被 JS 稍微隨機覆蓋以增加真實感 */
-            animation: floatUp 6s ease-in-out forwards;
         }
 
-        /* 加入物理軌跡搖擺與氣泡縮放特效的飄浮動畫 */
+        /* 垂直勻速直線上升特效 (線性不減速) */
         @keyframes floatUp {
-            0% {
-                transform: translate(0, 0) scale(0.5);
-                opacity: 0;
+            0% { 
+                bottom: -10vh;
+                opacity: 0; 
+                transform: scale(0.5); 
             }
+            15% { 
+                opacity: 0.85; /* 漸漸浮現 */
+                transform: scale(1.1); /* 出現時稍微彈大 */
+            }
+            25% {
+                transform: scale(1); /* 恢復正常大小 */
+            }
+            85% { 
+                opacity: 0.85;
+            }
+            100% { 
+                bottom: 120vh; /* 勻速飄出螢幕上方 */
+                opacity: 0; /* 漸漸消失 */
+                transform: scale(1); 
+            }
+        }
 
-            15% {
-                opacity: 0.8;
-                /* 漸漸浮現 */
-            }
-
-            33% {
-                transform: translate(var(--sway-x1), -40vh) scale(1.1);
-                /* 第一次搖擺與稍微放大 */
-            }
-
-            66% {
-                transform: translate(var(--sway-x2), -80vh) scale(0.9);
-                /* 第二次搖擺與稍微縮小 */
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: translate(var(--sway-x3), -120vh) scale(1);
-                /* 第三次搖擺並飄出螢幕 */
-                opacity: 0;
-                /* 漸漸消失 */
-            }
+        /* 水平搖擺特效 (模擬氣泡的左右平滑軌跡) */
+        @keyframes sway {
+            0% { margin-left: var(--sway-left); }
+            100% { margin-left: var(--sway-right); }
         }
     </style>
 </head>
-
 <body>
-
+    
     <!-- 互動 UI 容器 (固定在左下角，自適應大小) -->
     <div id="interactive-ui-container">
         <button id="toggle-bubble-btn">💬</button>
@@ -309,9 +224,7 @@
     </div>
 
     <!-- 泡泡飄浮容器 (覆蓋全螢幕，但不會阻擋點擊) -->
-    <div id="bubbles-container"
-        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; overflow: hidden;">
-    </div>
+    <div id="bubbles-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; overflow: hidden;"></div>
 
     <div class="reveal">
         <div class="slides">
@@ -409,9 +322,8 @@
                         <li>介面並非從零編寫，而是選用 GitHub 上的開源項目（awesome-design-md 的 Apple 風格）。</li>
                         <li>透過應用現成的高質素樣式庫，可以將工作重心保留在教學內容設計上，外觀交給開源工具包裝。</li>
                     </ul>
-                    <div class="img-container">
+                     <div class="img-container">
                         <img src="7.png" alt="UI設計">
-                        <div class="img-desc">圖片 7 建議：網站外觀或開源項目的圖片</div>
                     </div>
                 </section>
                 <section>
@@ -423,7 +335,6 @@
                     </ul>
                     <div class="img-container">
                         <img src="8.png" alt="GitHub Pages">
-                        <div class="img-desc">圖片 8 建議：GitHub Pages 標誌或連結示意圖</div>
                     </div>
                 </section>
                 <section>
@@ -468,11 +379,11 @@
                         </li>
                     </ul>
                 </section>
-
+                
                 <section>
                     <h3>提示詞範例 1：建構核心架構</h3>
                     <p><b>設計原意：</b>確立平台的基本邏輯，參考現有技術機制。</p>
-                    <pre><code>其他不變。我希望建立一個專為中學編程教學設計的課堂評測網站，核心機制請參考 LeetCode 等「自動化評測平台」。系統需具備以下核心架構：
+<pre><code>其他不變。我希望建立一個專為中學編程教學設計的課堂評測網站，核心機制請參考 LeetCode 等「自動化評測平台」。系統需具備以下核心架構：
 
 1. 題目建立：教師可預先設定題目，輸入標準 Python 程式碼後，系統需能自動生成或驗證「測試用例」。
 
@@ -482,11 +393,11 @@
 
 如需進一步補充系統規格或技術細節以完善平台開發，請向我提問。</code></pre>
                 </section>
-
+                
                 <section>
                     <h3>提示詞範例 2：功能優化與除錯</h3>
                     <p><b>設計原意：</b>解決課堂實際應用時出現的系統異常與效能問題。</p>
-                    <pre><code>其他不變。請為系統進行以下優化與除錯：
+<pre><code>其他不變。請為系統進行以下優化與除錯：
 
 【功能優化】
 
@@ -506,11 +417,11 @@
 
 請輸出更新後的完整 HTML 程式碼。</code></pre>
                 </section>
-
+                
                 <section>
                     <h3>提示詞範例 3：資料驗證與後台擴充</h3>
                     <p><b>設計原意：</b>完善評分邏輯，並加強學生輸入資料的格式控制。</p>
-                    <pre><code>其他不變，請完善系統評分邏輯及資料驗證機制：
+<pre><code>其他不變，請完善系統評分邏輯及資料驗證機制：
 
 【後台擴充與邏輯修復】
 
@@ -529,6 +440,7 @@
 請輸出更新後的完整 HTML 程式碼。</code></pre>
                 </section>
             </section>
+
             <!-- 結語 -->
             <section data-background-color="#f5f5f7">
                 <h2>總結</h2>
@@ -536,7 +448,7 @@
                 <!--
                 <div class="img-container">
                     <img src="11.png" alt="結語圖片">
-                    <div class="img-desc">圖片：整體系統運作圖或分享會結尾相片</div>
+                    <div class="img-desc">圖片 11 建議：整體系統運作圖或分享會結尾相片</div>
                 </div>
                 -->
             </section>
@@ -548,7 +460,7 @@
                     <p class="lead">供日後建置網站時參考之用</p>
                     <p>以下幻燈片包含了 GitHub Pages 與 Firebase 的詳細申請及設定流程，請向下捲動查閱。</p>
                 </section>
-
+                
                 <!-- 附錄：GitHub 步驟 1 & 2 -->
                 <section>
                     <h3>GITHUB：透過 GitHub Pages 免費上線教學</h3>
@@ -592,8 +504,7 @@
                         <li>選擇「以測試模式啟動 (Start in test mode)」，並選擇最近的地區。</li>
                         <li>回到專案總覽，按下「新增應用程式」，點擊網頁圖示 <code>&lt;/&gt;</code> 。</li>
                         <li>建立應用程式暱稱，然後註冊</li>
-                        <li>Firebase 會提供一段包含 <code>apiKey</code>, <code>projectId</code> 等資訊的程式碼。複製請AI協助將代碼整合進 HTML 檔案。
-                        </li>
+                        <li>Firebase 會提供一段包含 <code>apiKey</code>, <code>projectId</code> 等資訊的程式碼。複製請AI協助將代碼整合進 HTML 檔案。</li>
                     </ul>
                 </section>
                 <!-- 附錄：Firebase 代碼 -->
@@ -605,7 +516,7 @@
             </section>
         </div>
     </div>
-
+    
     <!-- 載入 Reveal.js 腳本 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
     <script>
@@ -617,7 +528,7 @@
             progress: true,
             center: true,
             hash: true,
-            transition: 'fade',
+            transition: 'fade', 
             backgroundTransition: 'fade'
         });
     </script>
@@ -643,7 +554,7 @@
         // 初始化 Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
+        
         // 建立/指向資料庫中的 "floating_bubbles" 節點
         const bubblesRef = ref(db, 'floating_bubbles');
 
@@ -686,7 +597,7 @@
         // 監聽 Firebase 資料庫，若有新資料寫入則觸發
         onChildAdded(bubblesRef, (snapshot) => {
             const data = snapshot.val();
-
+            
             // 只有當訊息是在網頁載入後，或者10秒內發送的，才會顯示，避免洗版
             if (data.timestamp && (Date.now() - data.timestamp) < 10000) {
                 createFloatingBubble(data.text);
@@ -698,28 +609,31 @@
             const bubble = document.createElement('div');
             bubble.classList.add('floating-bubble');
             bubble.textContent = text;
-
+            
             // 隨機初始 X 軸位置 (限制在 10vw 到 80vw 之間)
             const randomX = Math.floor(Math.random() * 70) + 10;
             bubble.style.left = randomX + 'vw';
+            
+            // 注入真實物理搖擺軌跡的隨機參數 (產生隨機的搖擺幅度 20px 到 60px)
+            const swayAmplitude = Math.floor(Math.random() * 40) + 20; 
+            bubble.style.setProperty('--sway-left', `-${swayAmplitude}px`);
+            bubble.style.setProperty('--sway-right', `${swayAmplitude}px`);
 
-            // 注入真實物理搖擺軌跡的隨機參數 (產生 -60px 到 60px 的隨機位移)
-            bubble.style.setProperty('--sway-x1', (Math.random() * 120 - 60) + 'px');
-            bubble.style.setProperty('--sway-x2', (Math.random() * 120 - 60) + 'px');
-            bubble.style.setProperty('--sway-x3', (Math.random() * 120 - 60) + 'px');
-
-            // 讓每一個泡泡的飄浮時間略有不同 (介於 5秒 到 8秒 之間)，看起來更有隨機物理感
-            const duration = (Math.random() * 3 + 5).toFixed(1);
-            bubble.style.animationDuration = duration + 's';
+            // 讓每一個泡泡的垂直飄浮時間略有不同 (5秒 到 8秒)，維持勻速向上
+            const floatDuration = (Math.random() * 3 + 5).toFixed(1);
+            // 水平搖擺的頻率 (1.5秒 到 3.0秒 完成一次左右來回)
+            const swayDuration = (Math.random() * 1.5 + 1.5).toFixed(1);
+            
+            // 組合兩個動畫：垂直勻速 (linear)，水平平滑來回 (ease-in-out infinite alternate)
+            bubble.style.animation = `floatUp ${floatDuration}s linear forwards, sway ${swayDuration}s ease-in-out infinite alternate`;
 
             bubblesContainer.appendChild(bubble);
 
             // 動畫結束後自動把元素移除，節省記憶體
             setTimeout(() => {
                 bubble.remove();
-            }, duration * 1000 + 100);
+            }, floatDuration * 1000 + 100); 
         }
     </script>
 </body>
-
 </html>
