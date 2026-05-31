@@ -59,30 +59,35 @@
             margin-top: 20px;
         }
         .reveal code { font-family: monospace; }
-        /* 圖片處理 - 放大佔用大部份空間並保持比例，且不出界 */
+        
+        /* =========================================
+           圖片處理 - 放大佔用大部份空間並保持比例，且絕對不出界
+           ========================================= */
         .reveal .slides section {
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            box-sizing: border-box;
+            padding-bottom: 20px; /* 避免內容太貼近底部邊緣 */
         }
         
         .reveal .slides section .img-container { 
-            margin-top: 20px; 
+            margin-top: 15px; 
             text-align: center; 
-            flex-grow: 1; /* 佔據剩餘空間 */
+            flex: 1 1 0; /* 關鍵：佔據所有剩餘空間，並且允許完美縮小 */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 0; /* 允許縮小 */
+            min-height: 0; /* 關鍵：防止 Flexbox 子元素撐破父容器 */
             width: 100%;
         }
         
         .reveal .slides section img {
-            /* 修改為限制在畫面大部份比例，不會過大超出螢幕 */
-            max-width: 90vw; 
-            max-height: 75vh; 
+            max-width: 95%; 
+            /* 使用百分比而非 vh，完美跟隨 Reveal.js 內建的縮放比例，扣除 30px 給下方的圖說文字 */
+            max-height: calc(100% - 30px); 
             width: auto;
             height: auto;
             object-fit: contain;
@@ -91,7 +96,9 @@
             box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
             background: transparent;
             margin: 0 auto;
+            flex-shrink: 1; /* 允許圖片在空間不足時自動縮小 */
         }
+        
         .img-desc { font-family: var(--font-text); font-size: 12px; color: var(--body-muted); margin-top: 12px; letter-spacing: -0.12px; }
         .highlight { color: var(--primary); font-weight: 600; }
         .tag { background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 14px; font-family: monospace; color: var(--ink); }
